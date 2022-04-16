@@ -2,7 +2,7 @@ package com.example.fastfood_app.Models;
 
 public class Item {
 
-    String itemname;
+    String itemname, description;
     float price;
     int image;
 
@@ -21,6 +21,14 @@ public class Item {
 
     public void setItemname(String itemname) {
         this.itemname = itemname;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public float getPrice() {

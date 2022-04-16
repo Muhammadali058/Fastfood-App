@@ -16,6 +16,12 @@ public class AddToCartActivity extends AppCompatActivity {
         binding = ActivityAddToCartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        String itemname = getIntent().getExtras().getString("itemname");
+        int image = getIntent().getExtras().getInt("image");
+        float price = getIntent().getExtras().getFloat("price");
 
+        binding.itemname.setText(itemname);
+        binding.price.setText(String.valueOf(price));
+        binding.image.setImageResource(image);
     }
 }
