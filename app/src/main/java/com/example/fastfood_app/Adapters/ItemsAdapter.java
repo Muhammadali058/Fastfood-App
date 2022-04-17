@@ -42,7 +42,6 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
         holder.binding.itemname.setText(item.getItemname());
         holder.binding.price.setText(String.valueOf(item.getPrice()));
-
         Glide.with(context).load(item.getImageUrl())
                 .placeholder(R.drawable.avatar)
                 .into(holder.binding.image);

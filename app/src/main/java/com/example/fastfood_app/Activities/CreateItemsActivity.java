@@ -70,7 +70,7 @@ public class CreateItemsActivity extends AppCompatActivity {
         }, new SearchItemsAdapter.OnLongClickListener() {
             @Override
             public void onClick(int position) {
-                deleteData(list.get(position));
+                deleteData(list.get(position).getId());
             }
         });
 
@@ -213,7 +213,7 @@ public class CreateItemsActivity extends AppCompatActivity {
                 insertData();
             }
             else {
-                updateData(selectedItem);
+                updateData(selectedItem.getId());
             }
         }else {
             Toast.makeText(this, "Enter Itemname", Toast.LENGTH_SHORT).show();
@@ -236,9 +236,12 @@ public class CreateItemsActivity extends AppCompatActivity {
         });
     }
 
-    private void updateData(Item item){
-        firestore.collection("items").document(item.getId())
-                .set(getData(), SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+    private void updateData(String id){
+        Item item = getData();
+        item.setId(selectedItem.getId());
+
+        firestore.collection("items").document(id)
+                .set(item, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
@@ -249,8 +252,8 @@ public class CreateItemsActivity extends AppCompatActivity {
         });
     }
 
-    private void deleteData(Item item){
-        firestore.collection("items").document(item.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+    private void deleteData(String id){
+        firestore.collection("items").document(id).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 loadData();
@@ -281,6 +284,8 @@ public class CreateItemsActivity extends AppCompatActivity {
 
         if(selectedItem.getCategoryId() != null){
             getCategory(selectedItem.getCategoryId());
+        }else{
+            binding.categoryTB.setText("");
         }
     }
 

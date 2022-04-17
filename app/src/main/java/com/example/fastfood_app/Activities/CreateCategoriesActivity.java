@@ -76,7 +76,7 @@ public class CreateCategoriesActivity extends AppCompatActivity {
         }, new SearchCategoriesAdapter.OnLongClickListener() {
             @Override
             public void onClick(int position) {
-                deleteData(list.get(position));
+                deleteData(list.get(position).getId());
             }
         });
 
@@ -178,7 +178,7 @@ public class CreateCategoriesActivity extends AppCompatActivity {
                 insertData();
             }
             else {
-                updateData(selectedCategory);
+                updateData(selectedCategory.getId());
             }
         }else {
             Toast.makeText(this, "Enter Category Name", Toast.LENGTH_SHORT).show();
@@ -195,14 +195,18 @@ public class CreateCategoriesActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             clearData();
+                            loadData();
                         }
                     }
                 });
     }
 
-    private void updateData(Category category){
-        firestore.collection("categories").document(category.getId())
-                .set(getData(), SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
+    private void updateData(String id){
+        Category category = getData();
+        category.setId(selectedCategory.getId());
+
+        firestore.collection("categories").document(id)
+                .set(category, SetOptions.merge()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if(task.isSuccessful()){
@@ -213,8 +217,8 @@ public class CreateCategoriesActivity extends AppCompatActivity {
         });
     }
 
-    private void deleteData(Category category){
-        firestore.collection("categories").document(category.getId()).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+    private void deleteData(String id){
+        firestore.collection("categories").document(id).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
                 loadData();

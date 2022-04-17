@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.bumptech.glide.Glide;
 import com.example.fastfood_app.R;
 import com.example.fastfood_app.databinding.ActivityAddToCartBinding;
 
@@ -17,11 +18,13 @@ public class AddToCartActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         String itemname = getIntent().getExtras().getString("itemname");
-        int image = getIntent().getExtras().getInt("image");
+        String imageUrl = getIntent().getExtras().getString("imageUrl");
         float price = getIntent().getExtras().getFloat("price");
 
         binding.itemname.setText(itemname);
         binding.price.setText(String.valueOf(price));
-        binding.image.setImageResource(image);
+        Glide.with(this).load(imageUrl)
+                .placeholder(R.drawable.avatar)
+                .into(binding.image);
     }
 }
