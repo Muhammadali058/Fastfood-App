@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     ItemsAdapter itemsAdapter;
     List<Category> categoryList;
     List<Item> itemList;
+    Category selectedCategory = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,8 @@ public class MainActivity extends AppCompatActivity {
                 binding.backBtn.setVisibility(View.GONE);
                 binding.categoriesLayout.setVisibility(View.VISIBLE);
                 binding.searchTB.setText("");
+
+                loadItems(selectedCategory.getId());
             }
         });
     }
@@ -70,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
         categoriesAdapter = new CategoriesAdapter(this, categoryList, new CategoriesAdapter.OnClickListener() {
             @Override
             public void onClick(int position) {
-                Category category = categoryList.get(position);
-                loadItems(category.getId());
+                selectedCategory = categoryList.get(position);
+                loadItems(selectedCategory.getId());
             }
         });
 
@@ -90,8 +93,8 @@ public class MainActivity extends AppCompatActivity {
 
                 categoriesAdapter.notifyDataSetChanged();
 
-                Category category = categoryList.get(0);
-                loadItems(category.getId());
+                selectedCategory = categoryList.get(0);
+                loadItems(selectedCategory.getId());
             }
         });
     }
