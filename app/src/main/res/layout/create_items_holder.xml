@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:clickable="true"
+    android:background="?attr/selectableItemBackground">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/itemname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Coca cola 1.5 ltr"
+                android:layout_weight="1"
+                android:textSize="@dimen/rowTextSize"
+                android:textColor="@color/textColor"
+                android:padding="@dimen/rowPadding"/>
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="280"
+                android:textSize="@dimen/rowTextSize"
+                android:textColor="@color/textColor"
+                android:padding="@dimen/rowPadding"/>
+
+        </TableRow>
+
+    </TableLayout>
+
+</LinearLayout>

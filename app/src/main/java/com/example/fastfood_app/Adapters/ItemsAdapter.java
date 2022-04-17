@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.fastfood_app.Activities.AddToCartActivity;
 import com.example.fastfood_app.Models.Item;
 import com.example.fastfood_app.R;
@@ -41,14 +42,17 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
         holder.binding.itemname.setText(item.getItemname());
         holder.binding.price.setText(String.valueOf(item.getPrice()));
-        holder.binding.image.setImageResource(item.getImage());
+
+        Glide.with(context).load(item.getImageUrl())
+                .placeholder(R.drawable.avatar)
+                .into(holder.binding.image);
 
         holder.binding.addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, AddToCartActivity.class);
                 intent.putExtra("itemname", item.getItemname());
-                intent.putExtra("image", item.getImage());
+                intent.putExtra("imageUrl", item.getImageUrl());
                 intent.putExtra("price", item.getPrice());
                 context.startActivity(intent);
             }

@@ -37,10 +37,6 @@ public class MainActivity extends AppCompatActivity {
     private void setCategoriesAdapter(){
         categoryList = new ArrayList<>();
 
-        categoryList.add(new Category("Burger", R.drawable.burgers));
-        categoryList.add(new Category("Pizza", R.drawable.pizzas));
-        categoryList.add(new Category("Sandwich", R.drawable.sandwiches));
-        categoryList.add(new Category("Drinks", R.drawable.drinks));
         categoriesAdapter = new CategoriesAdapter(this, categoryList, new CategoriesAdapter.OnClickListener() {
             @Override
             public void onClick(int position) {
@@ -64,14 +60,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void setItemsAdapter(){
         itemList = new ArrayList<>();
-
-        itemList.add(new Item("Chicken Burger", 250.00f, R.drawable.burger_1_chicken));
-        itemList.add(new Item("Cheese Burger", 250.00f, R.drawable.burger_3_cheeze));
-        itemList.add(new Item("Grill Burger", 250.00f, R.drawable.burger_6_grill));
-        itemList.add(new Item("Chicken Burger", 250.00f, R.drawable.burger_2_chicken));
-        itemList.add(new Item("Cheese Burger", 250.00f, R.drawable.burger_4_cheeze));
-        itemList.add(new Item("Grill Burger", 250.00f, R.drawable.burger_7_grill));
-        itemList.add(new Item("Cheese Burger", 250.00f, R.drawable.burger_5_cheeze));
 
         itemsAdapter = new ItemsAdapter(this, itemList, new ItemsAdapter.OnClickListener() {
             @Override

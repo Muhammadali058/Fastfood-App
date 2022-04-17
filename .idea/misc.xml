@@ -5,10 +5,20 @@
       <map>
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/drawable/box_bg.xml" value="0.1255" />
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/drawable/button_bg.xml" value="0.1255" />
+        <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/drawable/ic_search.xml" value="0.1255" />
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/drawable/textbox_bg.xml" value="0.1255" />
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_add_to_cart.xml" value="0.25" />
+        <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_create_categories.xml" value="0.25885416666666666" />
+        <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_create_items.xml" value="0.25" />
+        <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_image_view.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_phone_number.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_profile_info.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_verification.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/categories_holder.xml" value="0.25" />
+        <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/confirm_number_layout.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/create_categories_holder.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/create_items_holder.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/items_holder.xml" value="0.22" />
       </map>
     </option>

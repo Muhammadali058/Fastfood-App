@@ -1,18 +1,23 @@
 package com.example.fastfood_app.Models;
 
+import androidx.annotation.NonNull;
+
+import com.bumptech.glide.annotation.Excludes;
+
 public class Item {
 
-    String itemname, description;
+    String id, itemname, description, categoryId, imageUrl;
     float price;
-    int image;
 
     public Item() {
     }
 
-    public Item(String itemname, float price, int image) {
-        this.itemname = itemname;
-        this.price = price;
-        this.image = image;
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getItemname() {
@@ -31,6 +36,22 @@ public class Item {
         this.description = description;
     }
 
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public float getPrice() {
         return price;
     }
@@ -39,11 +60,9 @@ public class Item {
         this.price = price;
     }
 
-    public int getImage() {
-        return image;
-    }
-
-    public void setImage(int image) {
-        this.image = image;
+    @NonNull
+    @Override
+    public String toString() {
+        return itemname;
     }
 }

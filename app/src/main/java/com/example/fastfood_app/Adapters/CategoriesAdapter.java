@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.fastfood_app.Models.Category;
 import com.example.fastfood_app.R;
 import com.example.fastfood_app.databinding.CategoriesHolderBinding;
@@ -41,7 +42,10 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
         Category category = list.get(position);
 
         holder.binding.categoryName.setText(category.getCategoryName());
-        holder.binding.image.setImageResource(category.getImage());
+
+        Glide.with(context).load(category.getImageUrl())
+                .placeholder(R.drawable.avatar)
+                .into(holder.binding.image);
 
         if(position == selectedPosition) {
             holder.binding.layout.setBackgroundResource(R.color.selectedCategory);

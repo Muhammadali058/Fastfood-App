@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="headerTextSize">14sp</dimen>
+    <dimen name="rowTextSize">12sp</dimen>
+    <dimen name="headerPadding">5dp</dimen>
+    <dimen name="rowPadding">3dp</dimen>
+</resources>

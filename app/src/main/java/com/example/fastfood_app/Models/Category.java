@@ -1,24 +1,22 @@
 package com.example.fastfood_app.Models;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.firestore.Exclude;
+
 public class Category {
 
-    String categoryName;
-    int image;
+    String id, categoryName, imageUrl;
 
     public Category() {
     }
 
-    public Category(String categoryName, int image) {
-        this.categoryName = categoryName;
-        this.image = image;
+    public String getId() {
+        return id;
     }
 
-    public int getImage() {
-        return image;
-    }
-
-    public void setImage(int image) {
-        this.image = image;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getCategoryName() {
@@ -27,5 +25,19 @@ public class Category {
 
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return categoryName;
     }
 }
