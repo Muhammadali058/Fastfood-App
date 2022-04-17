@@ -50,9 +50,7 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, AddToCartActivity.class);
-                intent.putExtra("itemname", item.getItemname());
-                intent.putExtra("imageUrl", item.getImageUrl());
-                intent.putExtra("price", item.getPrice());
+                intent.putExtra("item", item);
                 context.startActivity(intent);
             }
         });

@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "657638062677",
+    "firebase_url": "https://fastfood-app-300ed-default-rtdb.firebaseio.com",
     "project_id": "fastfood-app-300ed",
     "storage_bucket": "fastfood-app-300ed.appspot.com"
   },
@@ -13,6 +14,14 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "657638062677-gvge0e936ab2k5dkvn6d2f8j8e94mmaj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.fastfood_app",
+            "certificate_hash": "cc5e602c5ab7dba71417a5cdf9c65d5d75743e09"
+          }
+        },
         {
           "client_id": "657638062677-ifpvsnk7nld623sdbihu0vk5hepqipdp.apps.googleusercontent.com",
           "client_type": 3

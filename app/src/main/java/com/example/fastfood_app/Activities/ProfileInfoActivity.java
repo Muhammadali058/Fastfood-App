@@ -11,9 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.example.fastfood_app.MainActivity;
 import com.example.fastfood_app.Models.User;
-import com.example.fastfood_app.R;
 import com.example.fastfood_app.databinding.ActivityProfileInfoBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -99,6 +97,7 @@ public class ProfileInfoActivity extends AppCompatActivity {
         user.setUsername(binding.usernameTB.getText().toString());
         user.setPhoneNumber(auth.getCurrentUser().getPhoneNumber());
         user.setImageUrl(imageUrl);
+        user.setUserType(2);
 
         database.getReference("users")
                 .child(auth.getUid())

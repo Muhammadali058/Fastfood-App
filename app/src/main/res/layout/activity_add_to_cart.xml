@@ -66,17 +66,20 @@
                     android:orientation="horizontal">
 
                     <ImageView
+                        android:id="@+id/minusBtn"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginHorizontal="5dp"
                         android:src="@drawable/minus" />
 
                     <TextView
+                        android:id="@+id/qty"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1" />
+                        android:text="0" />
 
                     <ImageView
+                        android:id="@+id/addBtn"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_marginHorizontal="5dp"
@@ -108,6 +111,7 @@
             android:layout_marginHorizontal="10dp"/>
 
         <TextView
+            android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Once there was a thirsy crow. He was very thirsty. He was flying here and there in search of water but could not found it any where. Suddenly he saw a pitcher of water. The water was too low in it."

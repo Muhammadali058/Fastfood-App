@@ -1,17 +1,13 @@
 package com.example.fastfood_app.Models;
 
-import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import com.bumptech.glide.annotation.Excludes;
-
-import java.io.Serializable;
-
-public class Item implements Serializable {
-
-    String id, itemname, description, categoryId, imageUrl;
+public class Cart {
+    String id, itemname, imageUrl;
     float price;
+    int qty;
 
-    public Item() {
+    public Cart() {
     }
 
     public String getId() {
@@ -30,22 +26,6 @@ public class Item implements Serializable {
         this.itemname = itemname;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
@@ -62,9 +42,20 @@ public class Item implements Serializable {
         this.price = price;
     }
 
-    @NonNull
+    public int getQty() {
+        return qty;
+    }
+
+    public void setQty(int qty) {
+        this.qty = qty;
+    }
+
     @Override
-    public String toString() {
-        return itemname;
+    public boolean equals(@Nullable Object obj) {
+        Cart cart = (Cart) obj;
+        if(this.id == cart.getId())
+            return true;
+        else
+            return false;
     }
 }
