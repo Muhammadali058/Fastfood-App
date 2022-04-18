@@ -2,4 +2,6 @@
     <string name="app_name">Fastfood-App</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+<!--    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBLWbQ8BdX3TJLzqynZ_GGuxf3mVQoNic0</string>-->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBFLu2_ZqE-KGB3B7Af5pzhrIZaN--71jU</string>
 </resources>

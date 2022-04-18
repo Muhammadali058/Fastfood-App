@@ -1,6 +1,7 @@
 package com.example.fastfood_app.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.fastfood_app.Adapters.CartAdapter;
 import com.example.fastfood_app.Adapters.CategoriesAdapter;
 import com.example.fastfood_app.HP;
@@ -34,6 +36,8 @@ public class CartActivity extends AppCompatActivity {
     FirebaseAuth auth;
     CartAdapter cartAdapter;
     ProgressDialog progressDialog;
+    double latitude = 0;
+    double longitude = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +79,14 @@ public class CartActivity extends AppCompatActivity {
                 }
             }
         });
+
+        binding.locationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CartActivity.this, MapActivity.class);
+                startActivityForResult(intent, 123);
+            }
+        });
     }
 
     private void updateTotal(){
@@ -96,22 +108,28 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void placeOrder() {
-        progressDialog.show();
+        if(latitude != 0 && longitude != 0) {
+            progressDialog.show();
 
-        Order order = new Order();
-        order.setUserId(auth.getUid());
-        order.setTotal(Float.valueOf(binding.total.getText().toString()));
+            Order order = new Order();
+            order.setUserId(auth.getUid());
+            order.setTotal(Float.valueOf(binding.total.getText().toString()));
+            order.setLatitide(latitude);
+            order.setLongitude(longitude);
 
-        DocumentReference documentReference = firestore.collection("orders").document();
-        order.setId(documentReference.getId());
-        documentReference.set(order).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    placeOrderItems(order.getId());
+            DocumentReference documentReference = firestore.collection("orders").document();
+            order.setId(documentReference.getId());
+            documentReference.set(order).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        placeOrderItems(order.getId());
+                    }
                 }
-            }
-        });
+            });
+        }else {
+            Toast.makeText(this, "Please select location for delivery", Toast.LENGTH_LONG).show();
+        }
     }
 
     private void placeOrderItems(String orderId){
@@ -142,4 +160,14 @@ public class CartActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 123 && data != null){
+            latitude = data.getDoubleExtra("latitude", 0);
+            longitude = data.getDoubleExtra("longitude", 0);
+        }
+    }
+
 }

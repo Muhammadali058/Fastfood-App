@@ -14,10 +14,13 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -63,17 +66,7 @@ public class MainActivity extends AppCompatActivity {
         headerBinding = NavigationDrawerHeaderBinding.bind(headerView);
         setContentView(binding.getRoot());
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 123);
-            }
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
-            }
-        }
+        checkPermissions();
 
         init();
         setCategoriesAdapter();
@@ -90,6 +83,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 searchItems();
+            }
+        });
+
+        binding.searchTB.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if(i == EditorInfo.IME_ACTION_SEARCH){
+                    searchItems();
+                    return true;
+                }
+                return false;
             }
         });
 
@@ -218,9 +222,18 @@ public class MainActivity extends AppCompatActivity {
                     Glide.with(MainActivity.this).load(HP.user.getImageUrl())
                             .placeholder(R.drawable.avatar)
                             .into(headerBinding.image);
+
+
+                    if(HP.user.getUserType() == 1)
+                        binding.navigationView.inflateMenu(R.menu.navigation_menu_admin);
+                    else
+                        binding.navigationView.inflateMenu(R.menu.navigation_menu);
+
                 }
             });
         }
+        else
+            binding.navigationView.inflateMenu(R.menu.navigation_menu);
     }
 
     private void setNavigationDrawer(){
@@ -234,9 +247,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
+                    case R.id.adminPanel:
+                        startAdminPanel();
+                        break;
                     case R.id.orders:
-                        Intent intent = new Intent(MainActivity.this, OrdersActivity.class);
-                        startActivity(intent);
+                        if(auth.getCurrentUser() != null) {
+                            Intent intent = new Intent(MainActivity.this, OrdersActivity.class);
+                            startActivity(intent);
+                        }else{
+                            Intent intent = new Intent(MainActivity.this, PhoneNumberActivity.class);
+                            startActivity(intent);
+                        }
                         closeDrawer();
                         break;
                     case R.id.exit:
@@ -246,11 +267,43 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
     }
 
     private void closeDrawer(){
         binding.drawerLayout.closeDrawer(GravityCompat.START);
     }
 
+    private void startAdminPanel(){
+        Intent intent = new Intent(MainActivity.this, AdminMainActivity.class);
+        startActivity(intent);
+        closeDrawer();
+    }
+
+    private void checkPermissions(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 2);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if(requestCode == 1){
+            if(grantResults[0] != PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(this, "Please allow work properly.", Toast.LENGTH_SHORT).show();
+            }
+        }else if(requestCode == 2){
+            if(grantResults[0] != PackageManager.PERMISSION_GRANTED){
+                Toast.makeText(this, "Please allow work properly.", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 }

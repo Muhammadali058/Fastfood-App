@@ -47,11 +47,22 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         holder.binding.addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, AddToCartActivity.class);
-                intent.putExtra("item", item);
-                context.startActivity(intent);
+                startAddToCartActivity(item);
             }
         });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startAddToCartActivity(item);
+            }
+        });
+    }
+
+    private void startAddToCartActivity(Item item){
+        Intent intent = new Intent(context, AddToCartActivity.class);
+        intent.putExtra("item", item);
+        context.startActivity(intent);
     }
 
     @Override

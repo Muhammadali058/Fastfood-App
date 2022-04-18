@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.fastfood_app.Activities.AddToCartActivity;
+import com.example.fastfood_app.Activities.CartActivity;
+import com.example.fastfood_app.Activities.MapActivity;
 import com.example.fastfood_app.Activities.OrderItemsActivity;
 import com.example.fastfood_app.Models.Item;
 import com.example.fastfood_app.Models.Order;
@@ -56,6 +58,7 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
                 User user = documentSnapshot.toObject(User.class);
 
                 holder.binding.username.setText(user.getUsername());
+                holder.binding.phoneNumber.setText(user.getPhoneNumber());
                 Glide.with(context).load(user.getImageUrl())
                         .placeholder(R.drawable.avatar)
                         .into(holder.binding.image);
@@ -68,6 +71,16 @@ public class OrdersAdapter extends RecyclerView.Adapter<OrdersAdapter.ViewHolder
             public void onClick(View view) {
                 Intent intent = new Intent(context, OrderItemsActivity.class);
                 intent.putExtra("orderId", order.getId());
+                context.startActivity(intent);
+            }
+        });
+
+        holder.binding.loationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, MapActivity.class);
+                intent.putExtra("latitude", order.getLatitide());
+                intent.putExtra("longitude", order.getLongitude());
                 context.startActivity(intent);
             }
         });

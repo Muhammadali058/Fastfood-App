@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+<!--        <group android:checkableBehavior="single">-->
+        <group>
+
+            <item
+                android:id="@+id/adminPanel"
+                android:title="Admin Panel"/>
+
+            <item
+                android:id="@+id/orders"
+                android:title="Orders"/>
+
+            <item
+                android:id="@+id/exit"
+                android:title="Exit"/>
+        </group>
+
+<!--        <item android:title="Comunications">-->
+<!--            <menu>-->
+<!--                <group>-->
+<!--                    <item-->
+<!--                        android:id="@+id/share"-->
+<!--                        android:title="Share"/>-->
+
+<!--                    <item-->
+<!--                        android:id="@+id/send"-->
+<!--                        android:title="Send"/>-->
+<!--                </group>-->
+<!--            </menu>-->
+<!--        </item>-->
+
+</menu>

@@ -55,7 +55,7 @@ public class OrderItemsActivity extends AppCompatActivity {
         firestore = FirebaseFirestore.getInstance();
 
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Placing Order...");
+        progressDialog.setMessage("Dispatching...");
 
         list = new ArrayList<>();
         orderItemsAdapter = new OrderItemsAdapter(this, list);

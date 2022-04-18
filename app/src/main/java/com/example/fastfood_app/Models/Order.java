@@ -3,6 +3,7 @@ package com.example.fastfood_app.Models;
 public class Order {
     String id, userId;
     float total;
+    double latitide, longitude;
 
     public Order() {
     }
@@ -29,5 +30,21 @@ public class Order {
 
     public void setTotal(float total) {
         this.total = total;
+    }
+
+    public double getLatitide() {
+        return latitide;
+    }
+
+    public void setLatitide(double latitide) {
+        this.latitide = latitide;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
     }
 }

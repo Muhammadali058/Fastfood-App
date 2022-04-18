@@ -35,7 +35,14 @@
         <entry key="..\:/Users/OK/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_admin_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/OK/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_cart.xml" value="0.33" />
         <entry key="..\:/Users/OK/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/OK/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_map.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/OK/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_order_items.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/OK/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/cart_items_holder.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/OK/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/items_holder.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/OK/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/navigation_drawer_header.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/OK/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/order_items_holder.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/OK/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/orders_holder.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/OK/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/menu/navigation_menu_admin.xml" value="0.36102564102564105" />
       </map>
     </option>
   </component>
