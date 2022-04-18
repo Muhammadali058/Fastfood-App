@@ -6,6 +6,7 @@
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/drawable/box_bg.xml" value="0.1255" />
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/drawable/button_bg.xml" value="0.1255" />
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/drawable/ic_search.xml" value="0.1255" />
+        <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/drawable/navigation_drawer_item_bg.xml" value="0.1395" />
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/drawable/textbox_bg.xml" value="0.1255" />
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_add_to_cart.xml" value="0.25" />
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_admin_main.xml" value="0.27291666666666664" />
@@ -13,6 +14,8 @@
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_create_items.xml" value="0.25" />
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_image_view.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_order_items.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_orders.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_phone_number.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_profile_info.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_verification.xml" value="0.27291666666666664" />
@@ -21,6 +24,12 @@
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/create_categories_holder.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/create_items_holder.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/items_holder.xml" value="0.22" />
+        <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/navigation_drawer_header.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/order_items_holder.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/orders_holder.xml" value="0.25" />
+        <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/menu/contextual_menu.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/menu/menu.xml" value="0.27291666666666664" />
+        <entry key="..\:/Users/HP/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/menu/navigation_menu.xml" value="0.27291666666666664" />
         <entry key="..\:/Users/OK/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_add_to_cart.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/OK/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_admin_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/OK/Documents/AndroidStudioProjects/FastfoodApp/app/src/main/res/layout/activity_cart.xml" value="0.33" />

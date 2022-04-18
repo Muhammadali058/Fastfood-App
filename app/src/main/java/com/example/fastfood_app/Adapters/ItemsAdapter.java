@@ -21,12 +21,10 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
 
     Context context;
     List<Item> list;
-    OnClickListener onClickListener;
 
-    public ItemsAdapter(Context context, List<Item> list, OnClickListener onClickListener) {
+    public ItemsAdapter(Context context, List<Item> list) {
         this.context = context;
         this.list = list;
-        this.onClickListener = onClickListener;
     }
 
     @NonNull
@@ -69,7 +67,4 @@ public class ItemsAdapter extends RecyclerView.Adapter<ItemsAdapter.ViewHolder> 
         }
     }
 
-    public interface OnClickListener{
-        void onClick(int position);
-    }
 }

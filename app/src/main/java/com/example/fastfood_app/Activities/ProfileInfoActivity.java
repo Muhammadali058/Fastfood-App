@@ -18,6 +18,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -25,7 +27,7 @@ import com.google.firebase.storage.UploadTask;
 public class ProfileInfoActivity extends AppCompatActivity {
 
     ActivityProfileInfoBinding binding;
-    FirebaseDatabase database;
+    FirebaseFirestore firestore;
     FirebaseStorage storage;
     FirebaseAuth auth;
     Uri selectedImage;
@@ -36,7 +38,7 @@ public class ProfileInfoActivity extends AppCompatActivity {
         binding = ActivityProfileInfoBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        database = FirebaseDatabase.getInstance();
+        firestore = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
         auth = FirebaseAuth.getInstance();
 
@@ -99,18 +101,17 @@ public class ProfileInfoActivity extends AppCompatActivity {
         user.setImageUrl(imageUrl);
         user.setUserType(2);
 
-        database.getReference("users")
-                .child(auth.getUid())
-                .setValue(user)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        dialog.dismiss();
-                        Intent intent = new Intent(ProfileInfoActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finishAffinity();
-                    }
-                });
+        firestore.collection("users").document(user.getId()).set(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    dialog.dismiss();
+                    Intent intent = new Intent(ProfileInfoActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finishAffinity();
+                }
+            }
+        });
     }
 
     @Override

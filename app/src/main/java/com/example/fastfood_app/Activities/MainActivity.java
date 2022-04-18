@@ -1,21 +1,37 @@
 package com.example.fastfood_app.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.fastfood_app.Adapters.CategoriesAdapter;
 import com.example.fastfood_app.Adapters.ItemsAdapter;
+import com.example.fastfood_app.HP;
 import com.example.fastfood_app.Models.Category;
 import com.example.fastfood_app.Models.Item;
+import com.example.fastfood_app.Models.User;
+import com.example.fastfood_app.R;
 import com.example.fastfood_app.databinding.ActivityMainBinding;
+import com.example.fastfood_app.databinding.NavigationDrawerHeaderBinding;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -28,7 +44,9 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     ActivityMainBinding binding;
+    NavigationDrawerHeaderBinding headerBinding;
     FirebaseFirestore firestore;
+    FirebaseAuth auth;
     CategoriesAdapter categoriesAdapter;
     ItemsAdapter itemsAdapter;
     List<Category> categoryList;
@@ -39,15 +57,33 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
+        View headerView = binding.navigationView.getHeaderView(0);
+        headerBinding = NavigationDrawerHeaderBinding.bind(headerView);
         setContentView(binding.getRoot());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 123);
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 123);
+            }
+        }
 
         init();
         setCategoriesAdapter();
         setItemsAdapter();
+        setUserInfo();
+        setNavigationDrawer();
+
     }
 
     private void init(){
         firestore = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
 
         binding.searchTB.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,14 +146,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setItemsAdapter(){
         itemList = new ArrayList<>();
-
-        itemsAdapter = new ItemsAdapter(this, itemList, new ItemsAdapter.OnClickListener() {
-            @Override
-            public void onClick(int position) {
-
-            }
-        });
-
+        itemsAdapter = new ItemsAdapter(this, itemList);
         binding.itemsRecyclerView.setAdapter(itemsAdapter);
         binding.itemsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
@@ -164,6 +193,47 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void setUserInfo(){
+        if(auth.getCurrentUser() != null) {
+            firestore.collection("users").document(auth.getUid())
+                    .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                @Override
+                public void onSuccess(DocumentSnapshot documentSnapshot) {
+                    HP.user = documentSnapshot.toObject(User.class);
+
+                    headerBinding.username.setText(HP.user.getUsername());
+                    Glide.with(MainActivity.this).load(HP.user.getImageUrl())
+                            .placeholder(R.drawable.avatar)
+                            .into(headerBinding.image);
+                }
+            });
+        }
+    }
+
+    private void setNavigationDrawer(){
+        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar,R.string.open,R.string.close);
+        binding.drawerLayout.addDrawerListener(actionBarDrawerToggle);;
+        actionBarDrawerToggle.syncState();
+
+        binding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.home:
+                        Toast.makeText(MainActivity.this, "Home", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.dashboard:
+                        Toast.makeText(MainActivity.this, "Dashboard", Toast.LENGTH_SHORT).show();
+                        break;
+                    case R.id.notifications:
+                        Toast.makeText(MainActivity.this, "Notification", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+                return true;
+            }
+        });
     }
 
 }

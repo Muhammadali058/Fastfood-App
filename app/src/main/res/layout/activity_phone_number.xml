@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:fontFamily="sans-serif-medium"
-            android:text="Enter you phone number"
+            android:text="Enter your phone number"
             android:textColor="@color/selectedCategory"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -40,32 +40,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fastfood will send an SMS to verify your"
+                android:text="Fastfood will send an SMS to verify your \n phone number"
+                android:textAlignment="center"
                 android:textColor="@color/textColor"
                 android:textSize="17sp" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="phone number. "
-                    android:textColor="@color/textColor"
-                    android:textSize="17sp" />
-
-                <TextView
-                    android:id="@+id/number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:shadowColor="@color/linkColor"
-                    android:text="What's my number?"
-                    android:textColorLink="@color/linkColor"
-                    android:textSize="17sp" />
-
-            </LinearLayout>
 
         </LinearLayout>
 
@@ -101,6 +79,7 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/selectedCategory"
                 android:ems="10"
+                android:maxLength="11"
                 android:inputType="phone"
                 android:textColor="@color/black"
                 app:layout_constraintHorizontal_bias="1"

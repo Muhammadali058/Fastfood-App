@@ -16,6 +16,7 @@ import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 
 import com.example.fastfood_app.Models.Cart;
+import com.example.fastfood_app.Models.User;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ import java.util.List;
 public class HP {
 
     public static List<Cart> cartList = new ArrayList<>();
+    public static User user = null;
 
     public static Spannable removeUnderline(String link){
         Spannable s = (Spannable) Html.fromHtml(link);

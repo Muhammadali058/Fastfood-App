@@ -5,9 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.fastfood_app.HP;
 import com.example.fastfood_app.R;
@@ -17,6 +19,7 @@ public class PhoneNumberActivity extends AppCompatActivity {
 
     ActivityPhoneNumberBinding binding;
     Dialog dialog;
+    String phoneNumber = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,18 +32,30 @@ public class PhoneNumberActivity extends AppCompatActivity {
         dialog.setContentView(R.layout.confirm_number_layout);
         TextView editBtn = dialog.findViewById(R.id.editBtn);
         TextView okBtn = dialog.findViewById(R.id.okBtn);
-        TextView phoneNumber = dialog.findViewById(R.id.number);
+        TextView phoneNumberTV = dialog.findViewById(R.id.number);
 
         binding.phoneNumber.requestFocus();
-
-        String number = "<a href='http://www.google.com'>What's my number?</a>";
-        binding.number.setText(HP.removeUnderline(number));
 
         binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String number = binding.code.getText().toString() + binding.phoneNumber.getText().toString();
-                phoneNumber.setText(number);
+                String number = binding.phoneNumber.getText().toString();
+
+                char[] chars = number.toCharArray();
+                if(number.length() == 11){
+                    for (int i=0; i < chars.length; i++){
+                        if(i == 0)
+                            continue;
+
+                        phoneNumber += String.valueOf(chars[i]);
+                    }
+                }else {
+                    phoneNumber = number;
+                }
+
+                phoneNumber = "+" + binding.code.getText().toString() + phoneNumber;
+
+                phoneNumberTV.setText(phoneNumber);
                 dialog.show();
             }
         });
@@ -58,8 +73,8 @@ public class PhoneNumberActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+
                 Intent intent = new Intent(PhoneNumberActivity.this, VerificationActivity.class);
-                String phoneNumber = "+" + binding.code.getText().toString() + binding.phoneNumber.getText().toString();
                 intent.putExtra("phoneNumber", phoneNumber);
                 startActivity(intent);
                 finish();
