@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -78,7 +80,6 @@ public class MainActivity extends AppCompatActivity {
         setItemsAdapter();
         setUserInfo();
         setNavigationDrawer();
-
     }
 
     private void init(){
@@ -108,6 +109,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, CartActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        headerBinding.username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(auth.getCurrentUser() == null){
+                    Intent intent = new Intent(MainActivity.this, PhoneNumberActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }
@@ -213,6 +224,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setNavigationDrawer(){
+        setSupportActionBar(binding.toolbar);
+
         ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, binding.drawerLayout, binding.toolbar,R.string.open,R.string.close);
         binding.drawerLayout.addDrawerListener(actionBarDrawerToggle);;
         actionBarDrawerToggle.syncState();
@@ -221,19 +234,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
-                    case R.id.home:
-                        Toast.makeText(MainActivity.this, "Home", Toast.LENGTH_SHORT).show();
+                    case R.id.orders:
+                        Intent intent = new Intent(MainActivity.this, OrdersActivity.class);
+                        startActivity(intent);
+                        closeDrawer();
                         break;
-                    case R.id.dashboard:
-                        Toast.makeText(MainActivity.this, "Dashboard", Toast.LENGTH_SHORT).show();
-                        break;
-                    case R.id.notifications:
-                        Toast.makeText(MainActivity.this, "Notification", Toast.LENGTH_SHORT).show();
+                    case R.id.exit:
+                        finish();
                         break;
                 }
                 return true;
             }
         });
+
+    }
+
+    private void closeDrawer(){
+        binding.drawerLayout.closeDrawer(GravityCompat.START);
     }
 
 }
