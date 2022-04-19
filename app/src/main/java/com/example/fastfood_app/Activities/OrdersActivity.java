@@ -17,11 +17,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import io.grpc.Server;
 
 public class OrdersActivity extends AppCompatActivity {
 
@@ -42,6 +45,11 @@ public class OrdersActivity extends AppCompatActivity {
     private void init(){
         firestore = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
+
+//        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+//                .setPersistenceEnabled(false)
+//                .build();
+//        firestore.setFirestoreSettings(settings);
 
         list = new ArrayList<>();
         ordersAdapter = new OrdersAdapter(this, list);

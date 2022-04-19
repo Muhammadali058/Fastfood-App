@@ -3,7 +3,7 @@ package com.example.fastfood_app.Models;
 import androidx.annotation.Nullable;
 
 public class Cart {
-    String id, itemname, imageUrl;
+    String id, userId, itemId, itemname, imageUrl;
     float price;
     int qty;
 
@@ -16,6 +16,22 @@ public class Cart {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(String itemId) {
+        this.itemId = itemId;
     }
 
     public String getItemname() {

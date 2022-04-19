@@ -20,17 +20,27 @@ import com.example.fastfood_app.Models.Item;
 import com.example.fastfood_app.R;
 import com.example.fastfood_app.databinding.CartItemsHolderBinding;
 import com.example.fastfood_app.databinding.ItemsHolderBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     Context context;
+    List<Cart> list;
     OnClickListener onClickListener;
+    FirebaseFirestore firestore;
 
-    public CartAdapter(Context context, OnClickListener onClickListener) {
+    public CartAdapter(Context context, List<Cart> list, OnClickListener onClickListener) {
         this.context = context;
+        this.list = list;
         this.onClickListener = onClickListener;
+
+        firestore = FirebaseFirestore.getInstance();
     }
 
     @NonNull
@@ -42,7 +52,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        Cart cart = HP.cartList.get(position);
+        Cart cart = list.get(position);
 
         holder.binding.itemname.setText(cart.getItemname());
         holder.binding.price.setText(String.valueOf(cart.getPrice()));
@@ -58,8 +68,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                 int qty = cart.getQty();
                 qty++;
                 cart.setQty(qty);
-                onClickListener.onClick(position);
-                notifyDataSetChanged();
+
+                Map<String, Object> map = new HashMap<>();
+                map.put("qty", qty);
+                firestore.collection("cart").document(cart.getId())
+                        .update(map)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                onClickListener.onClick(position);
+                                notifyDataSetChanged();
+                            }
+                        });
             }
         });
 
@@ -71,8 +91,18 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                     qty--;
                     holder.binding.qty.setText(String.valueOf(qty));
                     cart.setQty(qty);
-                    onClickListener.onClick(position);
-                    notifyDataSetChanged();
+
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("qty", qty);
+                    firestore.collection("cart").document(cart.getId())
+                            .update(map)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    onClickListener.onClick(position);
+                                    notifyDataSetChanged();
+                                }
+                            });
                 }
             }
         });
@@ -87,9 +117,19 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                HP.cartList.remove(cart);
-                                onClickListener.onClick(pos);
-                                notifyDataSetChanged();
+
+                                firestore.collection("cart").document(cart.getId())
+                                        .delete()
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()){
+                                                    list.remove(cart);
+                                                    onClickListener.onClick(pos);
+                                                    notifyDataSetChanged();
+                                                }
+                                            }
+                                        });
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -105,7 +145,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
 
     @Override
     public int getItemCount() {
-        return HP.cartList.size();
+        return list.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

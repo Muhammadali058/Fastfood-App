@@ -24,8 +24,6 @@ import java.util.Date;
 import java.util.List;
 
 public class HP {
-
-    public static List<Cart> cartList = new ArrayList<>();
     public static User user = null;
 
     public static Spannable removeUnderline(String link){

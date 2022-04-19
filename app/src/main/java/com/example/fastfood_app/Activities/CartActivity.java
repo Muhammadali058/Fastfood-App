@@ -21,10 +21,13 @@ import com.example.fastfood_app.Models.OrderItem;
 import com.example.fastfood_app.R;
 import com.example.fastfood_app.databinding.ActivityCartBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +37,7 @@ public class CartActivity extends AppCompatActivity {
     ActivityCartBinding binding;
     FirebaseFirestore firestore;
     FirebaseAuth auth;
+    List<Cart> list;
     CartAdapter cartAdapter;
     ProgressDialog progressDialog;
     double latitude = 0;
@@ -55,7 +59,8 @@ public class CartActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Placing Order...");
 
-        cartAdapter = new CartAdapter(this, new CartAdapter.OnClickListener() {
+        list = new ArrayList<>();
+        cartAdapter = new CartAdapter(this, list, new CartAdapter.OnClickListener() {
             @Override
             public void onClick(int position) {
                 updateTotal();
@@ -64,7 +69,22 @@ public class CartActivity extends AppCompatActivity {
 
         binding.recyclerView.setAdapter(cartAdapter);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        updateTotal();
+
+        firestore.collection("cart").whereEqualTo("userId", auth.getUid())
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot querySnapshot) {
+                list.clear();
+
+                for (QueryDocumentSnapshot queryDocumentSnapshot:querySnapshot){
+                    Cart cart = queryDocumentSnapshot.toObject(Cart.class);
+                    list.add(cart);
+                }
+
+                cartAdapter.notifyDataSetChanged();
+                updateTotal();
+            }
+        });
 
         binding.placeOrderBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,7 +94,7 @@ public class CartActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }else {
-                    if(HP.cartList.size() > 0)
+                    if(list.size() > 0)
                         placeOrder();
                 }
             }
@@ -92,7 +112,7 @@ public class CartActivity extends AppCompatActivity {
     private void updateTotal(){
         float subTotal = 0;
 
-        for(Cart cart: HP.cartList){
+        for(Cart cart: list){
             subTotal += cart.getQty() * cart.getPrice();
         }
 
@@ -133,7 +153,7 @@ public class CartActivity extends AppCompatActivity {
     }
 
     private void placeOrderItems(String orderId){
-        Cart cart = HP.cartList.get(0);
+        Cart cart = list.get(0);
 
         OrderItem orderItem = new OrderItem();
         orderItem.setOrderId(orderId);
@@ -148,14 +168,25 @@ public class CartActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    HP.cartList.remove(cart);
+                    firestore.collection("cart").document(cart.getId())
+                            .delete()
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        list.remove(cart);
 
-                    if(HP.cartList.size() > 0) {
-                        placeOrderItems(orderId);
-                    }else {
-                        progressDialog.dismiss();
-                        finish();
-                    }
+                                        if(list.size() > 0) {
+                                            placeOrderItems(orderId);
+                                        }else {
+                                            progressDialog.dismiss();
+                                            finish();
+                                        }
+                                    }
+                                }
+                            });
+
+
                 }
             }
         });

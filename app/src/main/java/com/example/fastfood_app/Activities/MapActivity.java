@@ -15,7 +15,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.widget.Toast;
-
 import com.example.fastfood_app.R;
 import com.example.fastfood_app.databinding.ActivityMapBinding;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -24,7 +23,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.util.Locale;
 
 public class MapActivity extends AppCompatActivity  implements OnMapReadyCallback {
@@ -52,11 +50,17 @@ public class MapActivity extends AppCompatActivity  implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            checkPermissions();
+            return;
+        }
 
         if(latitude !=0 && longitude !=0){
             deliveryLocation = new LatLng(latitude, longitude);
@@ -67,11 +71,6 @@ public class MapActivity extends AppCompatActivity  implements OnMapReadyCallbac
         // Add a marker in Ghazi Road and move the camera
         mMap.addMarker(new MarkerOptions().position(deliveryLocation).title("Delivery Location"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(deliveryLocation, 15));
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            checkPermissions();
-            return;
-        }
 
         mMap.setMyLocationEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);

@@ -101,7 +101,8 @@ public class VerificationActivity extends AppCompatActivity {
 
                             @Override
                             public void onVerificationFailed(@NonNull FirebaseException e) {
-
+                                dialog.dismiss();
+                                finish();
                             }
 
                             @Override

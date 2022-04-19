@@ -1,5 +1,6 @@
 package com.example.fastfood_app.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,16 +15,31 @@ import com.example.fastfood_app.Models.Cart;
 import com.example.fastfood_app.Models.Item;
 import com.example.fastfood_app.R;
 import com.example.fastfood_app.databinding.ActivityAddToCartBinding;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class AddToCartActivity extends AppCompatActivity {
 
     ActivityAddToCartBinding binding;
+    FirebaseFirestore firestore;
+    FirebaseAuth auth;
     Item item;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAddToCartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        init();
 
         item = (Item) getIntent().getSerializableExtra("item");
 
@@ -34,17 +50,26 @@ public class AddToCartActivity extends AppCompatActivity {
                 .placeholder(R.drawable.avatar)
                 .into(binding.image);
 
-        for(Cart cart : HP.cartList){
-            if(cart.getId().equals(item.getId())){
-                binding.qty.setText(String.valueOf(cart.getQty()));
-                break;
-            }
-        }
+        firestore.collection("cart")
+                .whereEqualTo("userId", auth.getUid())
+                .whereEqualTo("itemId", item.getId())
+                .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot querySnapshot) {
+                for(QueryDocumentSnapshot queryDocumentSnapshot: querySnapshot){
+                    Cart cart = queryDocumentSnapshot.toObject(Cart.class);
+                    binding.qty.setText(String.valueOf(cart.getQty()));
 
-        init();
+                    binding.addToCartBtn.setText("Update Cart");
+                }
+            }
+        });
     }
 
     private void init(){
+        firestore = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
+
         binding.addBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -68,22 +93,64 @@ public class AddToCartActivity extends AppCompatActivity {
         binding.addToCartBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int qty = Integer.valueOf(binding.qty.getText().toString());
-                if(qty > 0){
-                    Cart cart = new Cart();
-                    cart.setId(item.getId());
-                    cart.setItemname(item.getItemname());
-                    cart.setImageUrl(item.getImageUrl());
-                    cart.setPrice(item.getPrice());
-                    cart.setQty(qty);
+                if(auth.getCurrentUser() != null) {
+                    int qty = Integer.valueOf(binding.qty.getText().toString());
+                    if (qty > 0) {
+                        if(binding.addToCartBtn.getText().toString().toLowerCase().equals("add to cart")) {
+                            Cart cart = new Cart();
+                            cart.setUserId(auth.getUid());
+                            cart.setItemId(item.getId());
+                            cart.setItemname(item.getItemname());
+                            cart.setImageUrl(item.getImageUrl());
+                            cart.setPrice(item.getPrice());
+                            cart.setQty(qty);
 
-                    HP.cartList.add(cart);
+                            DocumentReference reference = firestore.collection("cart").document();
+                            cart.setId(reference.getId());
 
-                    Intent intent = new Intent(AddToCartActivity.this, CartActivity.class);
+                            reference.set(cart)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            Intent intent = new Intent(AddToCartActivity.this, CartActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    });
+                        }else {
+                            firestore.collection("cart")
+                                    .whereEqualTo("userId", auth.getUid())
+                                    .whereEqualTo("itemId", item.getId())
+                                    .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                @Override
+                                public void onSuccess(QuerySnapshot querySnapshot) {
+                                    for (QueryDocumentSnapshot queryDocumentSnapshot:querySnapshot){
+                                        Cart cart = queryDocumentSnapshot.toObject(Cart.class);
+
+                                        Map<String, Object> map = new HashMap<>();
+                                        map.put("qty", qty);
+                                        firestore.collection("cart").document(cart.getId())
+                                                .update(map)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if(task.isSuccessful()){
+                                                    Intent intent = new Intent(AddToCartActivity.this, CartActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                            });
+                        }
+                    } else {
+                        Toast.makeText(AddToCartActivity.this, "Please add qty", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Intent intent = new Intent(AddToCartActivity.this, PhoneNumberActivity.class);
                     startActivity(intent);
-                    finish();
-                }else {
-                    Toast.makeText(AddToCartActivity.this, "Please add qty", Toast.LENGTH_SHORT).show();
                 }
             }
         });
