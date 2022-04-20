@@ -48,7 +48,7 @@ public class VerificationActivity extends AppCompatActivity {
 
         phoneNumber = getIntent().getStringExtra("phoneNumber");
         binding.verifyPhoneNumber.setText("Verify " + phoneNumber);
-        binding.phoneNumber.setText(phoneNumber + ". ");
+        binding.phoneNumber.setText(phoneNumber);
 
         dialog = new ProgressDialog(this);
         dialog.setMessage("Sending code...");
